@@ -13,7 +13,6 @@ const pool = new Pool({
   password: "password",
   database: "postgres",
 });
-
 const app = new Koa();
 
 const privateKey = `
@@ -75,6 +74,8 @@ app.use(
     }
     const user = rows[0];
 
+    await pool.query(`UPDATE users SET last_update = $1 WHERE id = $2`, [new Date(), user.id])
+
     ctx.body = {
       message: "login successfull",
       access_token: jwt.sign(
@@ -105,6 +106,66 @@ app.use(async (ctx, next) => {
   await next();
 });
 
+
+type User = {
+  id: number;
+  username: string;
+  tokens: number;
+  last_update: Date;
+}
+app.use(async (ctx, next) => {
+  if (ctx.path === "/graphql") {
+   const user_id = ctx.state.user.user_id;
+    
+   try {
+      const userData = (await pool.query(`SELECT * FROM users WHERE id = ${user_id}`)).rows[0] as User ;
+
+      if (userData.last_update !== null && userData.tokens < 10) { //If null, users request never break;
+        const now = new Date();
+
+        const diffMs = now.getTime() - userData.last_update.getTime();
+        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+
+        const tokens = userData.tokens + diffHours >= 10 ? 10 : userData.tokens + diffHours;
+
+        if (tokens !== userData.tokens) {
+          await pool.query(`UPDATE users SET tokens = $1, last_update = $2 WHERE id = $3`, [tokens, now, user_id]);
+        }
+
+        if (tokens === 0) {
+          ctx.status = 429;
+          ctx.body = {message: "Request limit exceeded"}
+          return;
+        }
+      }
+       
+    }
+    catch(error) {
+      console.error(error);
+      ctx.body = `Error `
+      return;
+    }
+
+
+    await next();
+  }
+})
+
+
+app.use(async(ctx, next) => {
+  await next();
+
+  if (Array.isArray(ctx.body?.errors) && ctx.body.errors.length > 0) {
+    const userId = ctx.state.user.user_id;
+
+    if (userId) {
+      await pool.query(`UPDATE users SET tokens = tokens - 1 WHERE id = $1`, [userId]);
+    }
+
+
+  }
+})
+
 app.use(
   route.all(
     "/graphql",
@@ -112,5 +173,6 @@ app.use(
     
   )
 );
+
 
 app.listen(3000);

@@ -117,7 +117,6 @@ const RootQuery = new graphql.GraphQLObjectType({
             type: UserType,
             args: {id: {type: graphql.GraphQLInt}},
             async resolve(parentValue, args, ctx) {
-                console.log(ctx.state.user);
                 const query = `SELECT * FROM users WHERE id = ${args.id}`;
                 try {
                     const data = await pool.query(query);
