@@ -1,34 +1,40 @@
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username TEXT,
-    password TEXT
+    password TEXT,
+    tokens INT, 
+    last_update TIMESTAMP
 );
 
-CREATE TABLE endpoints (
-  id SERIAL PRIMARY KEY,
-  route TEXT,
-  refill_rate INT,       
-  bucket_capacity INT  
+CREATE TABLE keys (
+    id SERIAL PRIMARY KEY,
+    user_id INT,
+    type TEXT,
+    value TEXT,
+    FOREIGN KEY(user_id) REFERENCES users(id),
+    UNIQUE (type, value)
 );
 
-
-CREATE TABLE user_endpoints (
-  user_id INT,
-  endpoint_id INT,
-  tokens_available FLOAT,
-  last_updated TIMESTAMP,
-  PRIMARY KEY(user_id, endpoint_id),
-  FOREIGN KEY(user_id) REFERENCES users(id),
-  FOREIGN KEY(endpoint_id) REFERENCES endpoints(id)
+CREATE TABLE pix (
+    id SERIAL PRIMARY KEY,
+    from_user_id INT, 
+    key_id INT,
+    to_user_id INT,
+    amount INT,
+    FOREIGN KEY(from_user_id) REFERENCES users(id),
+    FOREIGN KEY(key_id) REFERENCES keys(id),
+    FOREIGN KEY(to_user_id) REFERENCES users(id)
 );
 
-INSERT INTO users (username, password) 
+INSERT INTO users (username, password, tokens) 
 VALUES 
-('user1', '1122'),
-('user2', '1122');
+('user1', '1122', 10),
+('user2', '1122', 10);
 
-INSERT INTO endpoints (route, refill_rate, bucket_capacity) 
+INSERT INTO keys (user_id, type, value )
 VALUES 
-('/route1', 1, 10),
-('/route2', 10, 100);
+(1, 'cpf', '12345678910'),
+(1, 'email', 'email@email.com'),
+(1, 'random', '1231231231231241298312-3912981290'),
+(2, 'cpf', '11111111111');
 

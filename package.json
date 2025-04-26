@@ -11,12 +11,18 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/koa": "^2.15.0",
     "@types/koa-route": "^3.2.8",
+    "@types/pg": "^8.11.14",
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "jsonwebtoken": "^9.0.2",
     "koa": "^2.16.1",
-    "koa-route": "^4.0.1"
+    "koa-body": "^6.0.1",
+    "koa-graphql": "^0.12.0",
+    "koa-route": "^4.0.1",
+    "pg": "^8.15.6"
   }
 }

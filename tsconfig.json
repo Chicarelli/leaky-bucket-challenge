@@ -1,9 +1,9 @@
 {
     "compilerOptions": {
-        "module": "ES2015",
+        "module": "Node16",
         "esModuleInterop": true,
-        "target": "ES6",
-        "moduleResolution": "node",
+        "target": "ESNext",
+        "moduleResolution": "node16",
         "sourceMap": true,
         "outDir": "dist"
     },
