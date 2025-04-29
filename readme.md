@@ -27,7 +27,7 @@
 
 3. **Run docker**
    ```
-   
+    create and fill a .env file based on the .env.example file
    ```
 
 4. **Start the server**
