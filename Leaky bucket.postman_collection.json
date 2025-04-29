@@ -1,0 +1,237 @@
+{
+	"info": {
+		"_postman_id": "f7079b1a-1be7-4d63-9610-98a806f36190",
+		"name": "Leaky bucket",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12529110"
+	},
+	"item": [
+		{
+			"name": "Retrieving User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{ _.token }}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "User-Agent",
+						"value": "insomnia/2023.5.8"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "{\n  user(id: 1) {\n    id\n    username\n\t\tkeys {\n\t\t\ttype value\n\t\t}\n\t\tsendedPix {\n\t\t\tamount\n\t\t\tto \n\t\t\tfrom\n\t\t}\n  }\n} \n"
+					}
+				},
+				"url": {
+					"raw": "{{ _.baseURl }}/graphql",
+					"host": [
+						"{{ _.baseURl }}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Insert Keys",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{ _.token }}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "User-Agent",
+						"value": "insomnia/2023.5.8"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": " mutation {\n  addKey(user_id:1, type: \"phone\", value: \"119211111211\") {\n    type,\n    value\n  }\n}"
+					}
+				},
+				"url": {
+					"raw": "{{ _.baseURl }}/graphql",
+					"host": [
+						"{{ _.baseURl }}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Insert PIX",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{ _.token }}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "User-Agent",
+						"value": "insomnia/2023.5.8"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": " mutation {\n  addPix(amount: 1000, value_key: \"11111111111\", type_key: \"cpf\") {\n\t\tamount\n\t\tkey {\n\t\t\ttype\n\t\t\tvalue\n\t\t}\n\t\tto \n\t\tfrom\n  }\n}"
+					}
+				},
+				"url": {
+					"raw": "{{ _.baseURl }}/graphql",
+					"host": [
+						"{{ _.baseURl }}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": []
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followRedirects": true,
+				"disableUrlEncoding": false,
+				"disableCookies": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "User-Agent",
+						"value": "insomnia/2023.5.8"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\t\"username\": \"user1\",\n\t\t\"password\": \"1122\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ _.baseURl }}/login",
+					"host": [
+						"{{ _.baseURl }}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURl",
+			"value": "localhost:3000"
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidXNlcjEiLCJ1c2VyX2lkIjoxLCJpYXQiOjE3NDU4ODU5NjcsImV4cCI6MTc0NTg4OTU2N30.YuUGY2A9vkUGkLzbtVe4ao1VQi6PZFG6mZwIy9WyZmZOYC-986UOKLwaYjDl8nmuL4UqZ0jucnS505i3G7FzZcCdpFIRDt_x2FqBzGmnGswgcKWAW8cxoedcipJD12_57QJ1sJMgqBpiL5itxMZHTKw-h_BTzU5OjA5OeIqxABdFbOADB72f81V0Eh9VkCjO15iqjrpOSgnNVv2kijgAlD35ZO5snHwok_1p3H2wDzypOk8n0Mo52RRsQUaNfw1Koz7xTSHF0ii-NRh3zFPods2E6GpNeyUYFlo7QTp8Z5n-EqV3dYUfjW9Ab2grgBgEjpuDqU-RJEEXPjQ0VbwVKw"
+		}
+	]
+}
