@@ -1,7 +1,6 @@
 import { PostgresUserRepository } from "../adapters/PostgresUserRepository.js";
 import { UserRepository } from "../domain/ports/UserRepository.js";
 
-
 export class RetrieveNumberOfTokensValidated {
     constructor(
         private userRepository: UserRepository = new PostgresUserRepository()
