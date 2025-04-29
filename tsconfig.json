@@ -5,11 +5,12 @@
         "target": "ESNext",
         "moduleResolution": "node16",
         "sourceMap": true,
-        "outDir": "dist"
+        "outDir": "dist",
+        "rootDir": "src"
     },
     
     "lib": [
         "es2015",
-    ]
+    ],
 
 }
