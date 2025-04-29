@@ -12,7 +12,7 @@ export class InsertPixUseCaseImpl {
     const key = await this.keysRepository.getKeyFromValueType(keyValue, keyType);
     
     if (key) {
-      return this.pixRepository.insertPix(amount, key.id, fromUserId, key.user.id);
+      return this.pixRepository.insertPix(amount, key.id, fromUserId, key.user_id);
     }
 
     throw new Error(`Error trying to find key to send pix`);

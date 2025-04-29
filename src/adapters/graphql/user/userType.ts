@@ -21,7 +21,7 @@ export const UserType = new GraphQLObjectType({
         sendedPix: {
             type: new GraphQLList(PixType),
             async resolve(parentValue) {
-                return pixRepository.getPixToUser(parentValue.id)
+                return pixRepository.getPixFromUser(parentValue.id)
             }
         },
         receivedPix: {

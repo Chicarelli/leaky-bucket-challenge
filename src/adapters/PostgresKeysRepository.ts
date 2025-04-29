@@ -14,7 +14,7 @@ export class PostgresKeysRepository implements KeysRepository {
 
 			return data?.rows[0] ? data.rows[0] : null;
 		} catch (error) {
-			throw new Error(`Error insertinr key`, error);
+			throw new Error(error);
 		}
 	}
 

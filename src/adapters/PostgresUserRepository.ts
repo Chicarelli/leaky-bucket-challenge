@@ -22,7 +22,7 @@ export class PostgresUserRepository implements UserRepository {
     const query = `SELECT * FROM users WHERE id = $1`;
 
     try {
-      const data = await this.pool.query(query);
+      const data = await this.pool.query(query, [userId]);
 
       return data.rows[0] ? data.rows[0] : null;
     } catch (error) {
@@ -38,7 +38,7 @@ export class PostgresUserRepository implements UserRepository {
 
       return data.rows[0] ? data.rows[0] : null;
     } catch (error) {
-      throw new Error("Error trying to get user");
+      throw new Error("Error trying to get user here");
     }
   }
 
@@ -49,7 +49,7 @@ export class PostgresUserRepository implements UserRepository {
   }
   
   async updateUserToken(tokens: number, lastUpdate: Date, id: number): Promise<void> {
-    const query = `UPDATE users GET tokens = $1, last_update = $2 WHERE id = $3`;
+    const query = `UPDATE users SET tokens = $1, last_update = $2 WHERE id = $3`;
 
     await this.pool.query(query, [tokens, lastUpdate, id]);
   }

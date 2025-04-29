@@ -1,4 +1,5 @@
 import { Pool } from "pg";
+import "dotenv/config";
 
 class Database {
   private static instance: Pool;

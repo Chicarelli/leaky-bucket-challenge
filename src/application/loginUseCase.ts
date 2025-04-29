@@ -2,6 +2,7 @@ import { PostgresUserRepository } from "../adapters/PostgresUserRepository.js";
 import { LoggedUser } from "../domain/models/LoggedUser.js";
 import { UserRepository } from "../domain/ports/UserRepository.js";
 import jwt from 'jsonwebtoken';
+import "dotenv/config";
 
 export class LoginUseCase {
     constructor(private userRepository: UserRepository = new PostgresUserRepository()){}

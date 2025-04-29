@@ -7,7 +7,7 @@ import schema from "./adapters/graphql/schema.js";
 import { LoginUseCase } from "./application/loginUseCase.js";
 import { RetrieveNumberOfTokensValidated } from "./application/retrieveNumberOfTokensValidated.js";
 import { SubtractNumberOfTokens } from "./application/subtractNumberOfTokens.js";
-import "dotenv";
+import "dotenv/config";
 
 const app = new Koa();
 const loginUseCase = new LoginUseCase();
@@ -19,7 +19,7 @@ app.use(
   route.post("/login", async (ctx) => {
     const { username, password } = ctx.request.body;
     try {
-      return loginUseCase.handle(username, password);
+      ctx.body = await loginUseCase.handle(username, password);
     } catch (error) {
       ctx.status = 401;
       ctx.body = { message: "Invalid username or password" };
@@ -69,3 +69,6 @@ app.use(async (ctx, next) => {
 });
 
 app.use(route.all("/graphql", graphqlHTTP({ schema, graphiql: true })));
+
+
+app.listen(3000);
