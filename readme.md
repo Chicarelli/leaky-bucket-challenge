@@ -25,7 +25,12 @@
    docker-compose up --build
    ```
 
-3. **Start the server**
+3. **Run docker**
+   ```
+   
+   ```
+
+4. **Start the server**
     ```
     npm run start
     ```
