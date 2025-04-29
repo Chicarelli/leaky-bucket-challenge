@@ -4,10 +4,10 @@ import jwt from "jsonwebtoken";
 import { koaBody } from "koa-body";
 import { graphqlHTTP } from "koa-graphql";
 import schema from "./adapters/graphql/schema.js";
-import { publicKey } from "./keys.js";
 import { LoginUseCase } from "./application/loginUseCase.js";
 import { RetrieveNumberOfTokensValidated } from "./application/retrieveNumberOfTokensValidated.js";
 import { SubtractNumberOfTokens } from "./application/subtractNumberOfTokens.js";
+import "dotenv";
 
 const app = new Koa();
 const loginUseCase = new LoginUseCase();
@@ -31,7 +31,7 @@ app.use(async (ctx, next) => {
   if (ctx.path === "/graphql") {
     const token = ctx.request.headers["authorization"]?.split(" ")[1];
     try {
-      jwt.verify(token, publicKey, { algorithms: ["RS256"] });
+      jwt.verify(token, process.env.PUBLIC_KEY, { algorithms: ["RS256"] });
       const decoded = jwt.decode(token);
       ctx.state.user = decoded;
     } catch (err) {

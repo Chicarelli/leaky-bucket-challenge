@@ -2,7 +2,6 @@ import { PostgresUserRepository } from "../adapters/PostgresUserRepository.js";
 import { LoggedUser } from "../domain/models/LoggedUser.js";
 import { UserRepository } from "../domain/ports/UserRepository.js";
 import jwt from 'jsonwebtoken';
-import { privateKey } from "../keys.js";
 
 export class LoginUseCase {
     constructor(private userRepository: UserRepository = new PostgresUserRepository()){}
@@ -18,7 +17,7 @@ export class LoginUseCase {
                     user: loggedUser.username,
                     user_id: loggedUser.id
                     },
-                    privateKey,
+                    process.env.PRIVATE_KEY,
                     {algorithm: "RS256", expiresIn: '1h'}
                 )
             }

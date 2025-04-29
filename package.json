@@ -18,6 +18,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "dotenv": "^16.5.0",
     "jsonwebtoken": "^9.0.2",
     "koa": "^2.16.1",
     "koa-body": "^6.0.1",
